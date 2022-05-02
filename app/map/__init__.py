@@ -73,6 +73,18 @@ def location_upload():
             for row in csv_file:
                 list_of_locations.append(Location(row['location'],row['longitude'],row['latitude'],row['population']))
 
+
+        with open(filepath) as file:
+            csv_file = csv.DictReader(file)
+            for row in csv_file:
+                list_of_locations.append(
+                    Location(row['location'], row['longitude'], row['latitude'], row['population']))
+                #### trigger the log -- next three lines
+                user = current_user
+                log.info(user)
+                log.info("Your has been uploaded!  at map-init-py -- def location_upload")
+
+
         current_user.locations = list_of_locations
         db.session.commit()
 

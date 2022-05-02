@@ -31,7 +31,7 @@ def songs_browse(page):
 def songs_upload():
     form = csv_upload()
     if form.validate_on_submit():
-        log = logging.getLogger("myApp")
+        log = logging.getLogger("csv")
 
         filename = secure_filename(form.file.data.filename)
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
@@ -41,11 +41,12 @@ def songs_upload():
         with open(filepath) as file:
             csv_file = csv.DictReader(file)
             for row in csv_file:
-                list_of_songs.append(Song(row['Name'],row['Artist']))
+                list_of_songs.append(Song(row['Title'],row['Artist'],row['Genre'],row['Year']))
 
         current_user.songs = list_of_songs
         db.session.commit()
 
+        log.info('Your CSV Upload My Friend')
         return redirect(url_for('songs.songs_browse'))
 
     try:

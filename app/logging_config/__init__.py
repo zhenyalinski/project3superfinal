@@ -95,7 +95,17 @@ LOGGING_CONFIG = {
             'filename': os.path.join(config.Config.LOG_DIR,'werkzeug.log'),
             'maxBytes': 10000000,
             'backupCount': 5,
+
+},
+        'file.handler.csv': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'standard',
+            'filename': os.path.join(config.Config.LOG_DIR,'csv.log'),
+            'maxBytes': 10000000,
+            'backupCount': 5,
         },
+
+
     },
     'loggers': {
         '': {  # root logger
@@ -128,6 +138,13 @@ LOGGING_CONFIG = {
             'level': 'DEBUG',
             'propagate': False
         },
+        'csv': {  # if __name__ == '__main__'
+            'handlers': ['file.handler.csv'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+
+
 
     }
 }
