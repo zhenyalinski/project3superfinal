@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, flash,current_a
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash
 
+import socket
+import logging
 from app.auth.decorators import admin_required
 from app.auth.forms import login_form, register_form, profile_form, security_form, user_edit_form
 from app.db import db
@@ -35,6 +37,14 @@ def register():
 @auth.route('/login', methods=['POST', 'GET'])
 def login():
     form = login_form()
+
+    hostname = socket.gethostname()
+    IPAddr = socket.gethostbyname(hostname)
+    log = logging.getLogger("myApp")
+    log.info("inside app / init / login ")
+    lm = "Hostname Logging + IPaddr: " + hostname + " /  " + IPAddr
+    log.info(lm)
+
     if current_user.is_authenticated:
         return redirect(url_for('auth.dashboard'))
     if form.validate_on_submit():

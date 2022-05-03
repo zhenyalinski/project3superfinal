@@ -1,5 +1,6 @@
 import logging
 from flask import has_request_context, request
+from flask.logging import default_handler
 
 
 class RequestFormatter(logging.Formatter):
@@ -18,3 +19,15 @@ class RequestFormatter(logging.Formatter):
             record.remote_addr = None
 
         return super().format(record)
+
+
+formatter = RequestFormatter(
+    '[%(asctime)s] %(remote_addr)s requested %(url)s\n'
+    '%(levelname)s in %(module)s: %(message)s %(method) %(path) %(clienttip -15s)'
+)
+default_handler.setFormatter(formatter)
+mail_handler.setFormatter(formatter)
+
+
+
+
